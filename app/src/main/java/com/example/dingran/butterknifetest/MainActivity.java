@@ -3,6 +3,9 @@ package com.example.dingran.butterknifetest;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +34,9 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.test_btn)
     Button mTestBtn;
 
+    @Bind(R.id.textInput)
+    TextInputLayout mInputLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +51,17 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view,"测试弹出提示",Snackbar.LENGTH_LONG)
+                        .setAction("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //这里的单击事件代表点击消除Action后的响应事件
+                            }
+                        })
+//                        .setActionTextColor()// 设置文字颜色
+                        .show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
 
@@ -57,6 +73,30 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mInputLayout.setHint("请输入姓名：");
+        EditText editText = mInputLayout.getEditText();
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 4) {
+                    mInputLayout.setErrorEnabled(true);
+                    mInputLayout.setError("姓名长度不能超过4个");
+                } else {
+                    mInputLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override

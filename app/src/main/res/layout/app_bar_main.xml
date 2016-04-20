@@ -35,5 +35,6 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         />
+    <!--5.0如果没有阴影，那么要设置app:borderWidth="0dp"，还要对于5.x设置一个合理的margin-->
 
 </android.support.design.widget.CoordinatorLayout>
